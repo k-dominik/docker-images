@@ -61,7 +61,7 @@ RUN curl -s -L https://repo.continuum.io/miniconda/Miniconda3-4.3.21-Linux-x86_6
 
 # Install conda build and deployment tools.
 RUN export PATH="/opt/conda/bin:${PATH}" && \
-    conda install --yes --quiet conda-build anaconda-client jinja2 setuptools && \
+    conda install --yes --quiet conda-build=3 anaconda-client jinja2 setuptools && \
     conda install --yes git && \
     conda clean -tipsy
 
