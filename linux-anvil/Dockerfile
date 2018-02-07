@@ -25,7 +25,9 @@ RUN yum update -y && \
                    libXrender-devel \
                    libSM-devel \
                    libX11-devel \
-                   mesa-libGL-devel && \
+                   mesa-libGL-devel \
+                   java-1.8.0-openjdk-headless.x86_64 \
+                   unzip && \
     yum clean all
 
 # Install devtoolset 2.
