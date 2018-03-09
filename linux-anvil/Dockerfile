@@ -27,6 +27,7 @@ RUN yum update -y && \
                    libX11-devel \
                    mesa-libGL-devel \
                    java-1.8.0-openjdk-headless.x86_64 \
+                   nano \
                    unzip && \
     yum clean all
 
@@ -35,12 +36,12 @@ RUN yum update -y && \
     yum install -y \
                    centos-release-scl \
                    yum-utils && \
-    yum-config-manager --add-repo http://people.centos.org/tru/devtools-2/devtools-2.repo && \
+    yum-config-manager --add-repo http://people.centos.org/tru/devtools-4/devtools-4.repo && \
     yum update -y && \
     yum install -y \
-                   devtoolset-2-binutils \
-                   devtoolset-2-gcc \
-                   devtoolset-2-gcc-c++ && \
+                   devtoolset-4-binutils \
+                   devtoolset-4-gcc \
+                   devtoolset-4-gcc-c++ && \
     yum clean all
 
 # give sudo permission for conda user to run yum (user creation is postponed
@@ -61,7 +62,7 @@ RUN curl -s -L https://repo.continuum.io/miniconda/Miniconda3-4.3.21-Linux-x86_6
 
 # Install conda build and deployment tools.
 RUN export PATH="/opt/conda/bin:${PATH}" && \
-    conda install --yes --quiet conda-build=3 anaconda-client jinja2 setuptools && \
+    conda install --yes --quiet conda-build=3 anaconda-client jinja2 setuptools cmake && \
     conda install --yes git && \
     conda clean -tipsy
 
