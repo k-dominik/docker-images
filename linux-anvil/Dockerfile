@@ -1,4 +1,4 @@
-FROM centos:6
+FROM ubuntu:16.04
 
 MAINTAINER conda-forge <conda-forge@googlegroups.com>
 
@@ -10,43 +10,45 @@ ENV LANG en_US.UTF-8
 ADD http://tycho.usno.navy.mil/timer.html /opt/docker/etc/timestamp
 
 # Resolves a nasty NOKEY warning that appears when using yum.
-RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-6
+# RUN rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-6
 
 # Install basic requirements.
-RUN yum update -y && \
-    yum install -y \
+RUN apt update -y && \
+    apt install -y \
                    bzip2 \
                    make \
                    patch \
+                   grep \
                    sudo \
                    tar \
-                   which \
-                   libXext-devel \
-                   libXrender-devel \
-                   libSM-devel \
-                   libX11-devel \
-                   mesa-libGL-devel \
-                   java-1.8.0-openjdk-headless.x86_64 \
+                   openjdk-8-jre \
+                   curl \
+                   openssl \
                    nano \
+                   vim \
                    unzip && \
-    yum clean all
+    apt clean all
 
 # Install devtoolset 2.
-RUN yum update -y && \
-    yum install -y \
-                   centos-release-scl \
-                   yum-utils && \
-    yum-config-manager --add-repo http://people.centos.org/tru/devtools-4/devtools-4.repo && \
-    yum update -y && \
-    yum install -y \
-                   devtoolset-4-binutils \
-                   devtoolset-4-gcc \
-                   devtoolset-4-gcc-c++ && \
-    yum clean all
+# RUN apt update -y && \
+#     apt install -y \
+#                    centos-release-scl \
+#                    apt-utils && \
+#     # apt-config-manager --add-repo http://people.centos.org/tru/devtools/devtools.repo && \
+#     # apt update -y && \
+#     # apt install -y \
+#     #                devtoolset-5-binutils \
+#     #                devtoolset-5-gcc \
+#     #                devtoolset-5-gcc-c++ && \
+#     apt install -y devtoolset-6 && \
+#     apt clean all
 
+# Run everything from here in bash, instead of sh
+# https://stackoverflow.com/questions/20635472/using-the-run-instruction-in-a-dockerfile-with-source-does-not-work/45087082#45087082
+SHELL ["/bin/sh", "-c"]
 # give sudo permission for conda user to run yum (user creation is postponed
 # to the entrypoint, so we can create a user with the same id as the host)
-RUN echo 'conda ALL=NOPASSWD: /usr/bin/yum' >> /etc/sudoers
+RUN echo 'conda ALL=NOPASSWD: /usr/bin/apt' >> /etc/sudoers
 
 # Install the latest Miniconda with Python 3 and update everything.
 RUN curl -s -L https://repo.continuum.io/miniconda/Miniconda3-4.3.21-Linux-x86_64.sh > miniconda.sh && \
