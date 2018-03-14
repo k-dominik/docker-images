@@ -45,7 +45,7 @@ RUN apt update -y && \
 
 # Run everything from here in bash, instead of sh
 # https://stackoverflow.com/questions/20635472/using-the-run-instruction-in-a-dockerfile-with-source-does-not-work/45087082#45087082
-SHELL ["/bin/sh", "-c"]
+SHELL ["/bin/bash", "-c"]
 # give sudo permission for conda user to run yum (user creation is postponed
 # to the entrypoint, so we can create a user with the same id as the host)
 RUN echo 'conda ALL=NOPASSWD: /usr/bin/apt' >> /etc/sudoers
