@@ -65,16 +65,14 @@ RUN curl -s -L https://repo.continuum.io/miniconda/Miniconda3-4.3.21-Linux-x86_6
 # Install conda build and deployment tools.
 RUN export PATH="/opt/conda/bin:${PATH}" && \
     conda install --yes --quiet conda-build=3 anaconda-client jinja2 setuptools cmake && \
-    conda install --yes git && \
+    conda install --yes git gosu tini && \
     conda clean -tipsy
 
 # Install docker tools.
 RUN export PATH="/opt/conda/bin:${PATH}" && \
-    conda install --yes gosu && \
-    export CONDA_GOSU_INFO=( `conda list gosu | grep gosu` ) && \
+    export CONDA_GOSU_INFO=`conda list gosu | grep gosu` && \
     echo "gosu ${CONDA_GOSU_INFO[1]}" >> /opt/conda/conda-meta/pinned && \
-    conda install --yes tini && \
-    export CONDA_TINI_INFO=( `conda list tini | grep tini` ) && \
+    export CONDA_TINI_INFO=`conda list tini | grep tini` && \
     echo "tini ${CONDA_TINI_INFO[1]}" >> /opt/conda/conda-meta/pinned && \
     conda clean -tipsy
 
