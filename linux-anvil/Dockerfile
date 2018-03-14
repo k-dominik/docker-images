@@ -15,6 +15,7 @@ ADD http://tycho.usno.navy.mil/timer.html /opt/docker/etc/timestamp
 # Install basic requirements.
 RUN apt update -y && \
     apt install -y \
+                   build-essential \
                    bzip2 \
                    make \
                    patch \
